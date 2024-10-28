@@ -16,10 +16,14 @@ interface Transaction {
 }
 
 export default function Home() {
-  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  useEffect(() => {
     const savedTransactions = localStorage.getItem("transactions");
-    return savedTransactions ? JSON.parse(savedTransactions) : [];
-  });
+    if (savedTransactions) {
+      setTransactions(JSON.parse(savedTransactions));
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("transactions", JSON.stringify(transactions));
