@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -14,18 +14,47 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
-const BudgetForm = () => {
+interface Transaction {
+  id: number;
+  description: string;
+  amount: number;
+  type: "income" | "expense";
+}
+
+interface BudgetFormProps {
+  onAddTransaction: (transaction: Transaction) => void;
+}
+
+const BudgetForm = ({ onAddTransaction }: BudgetFormProps) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState<"income" | "expense">("expense");
 
+  const descriptionInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (descriptionInputRef.current) {
+      descriptionInputRef.current.focus();
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
+    if (!description || !amount || !type) return;
+
+    const transaction: Transaction = {
+      id: Date.now(),
       description,
-      amount,
+      amount: parseFloat(amount),
       type,
-    });
+    };
+    onAddTransaction(transaction);
+    setDescription("");
+    setAmount("");
+    setType("expense");
+    if (descriptionInputRef.current) {
+      descriptionInputRef.current.focus();
+    }
   };
 
   return (
@@ -45,6 +74,7 @@ const BudgetForm = () => {
               className="w-full"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              ref={descriptionInputRef}
             />
           </div>
           <div className="space-y-2">
@@ -69,7 +99,7 @@ const BudgetForm = () => {
               required
             >
               <SelectTrigger id="type" className="w-full">
-                <SelectValue placeholder="Select transaction type" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="income">Income</SelectItem>
