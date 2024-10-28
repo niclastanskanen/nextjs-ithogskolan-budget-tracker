@@ -36,7 +36,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-8">
             <BudgetForm onAddTransaction={addTransaction} />
-            <BudgetSummary />
+            <BudgetSummary transactions={transactions} />
           </div>
           <TransactionList />
         </div>
