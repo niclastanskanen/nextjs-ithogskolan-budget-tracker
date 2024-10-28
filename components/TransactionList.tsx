@@ -11,9 +11,13 @@ interface Transaction {
 
 interface TransactionListProps {
   transactions: Transaction[];
+  onDeleteTransaction: (id: number) => void;
 }
 
-const TransactionList = ({ transactions }: TransactionListProps) => {
+const TransactionList = ({
+  transactions,
+  onDeleteTransaction,
+}: TransactionListProps) => {
   return (
     <Card>
       <CardHeader>
@@ -37,7 +41,11 @@ const TransactionList = ({ transactions }: TransactionListProps) => {
                 {type === "income" ? "+" : "-"} ${amount.toFixed(2)}
               </p>
             </div>
-            <Button variant="ghost" size="icon">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onDeleteTransaction(id)}
+            >
               <Trash2 className="h-4 w-4" />
             </Button>
           </div>
