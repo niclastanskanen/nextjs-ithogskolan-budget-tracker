@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ArrowDown, ArrowUp, DollarSign } from "lucide-react";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface Transaction {
   id: number;
