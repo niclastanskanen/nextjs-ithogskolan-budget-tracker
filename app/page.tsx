@@ -29,6 +29,12 @@ export default function Home() {
     setTransactions((prevTransactions) => [...prevTransactions, transaction]);
   };
 
+  const deleteTransaction = (id: number) => {
+    setTransactions((prevTransactions) =>
+      prevTransactions.filter((transaction) => transaction.id !== id)
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header />
@@ -38,7 +44,10 @@ export default function Home() {
             <BudgetForm onAddTransaction={addTransaction} />
             <BudgetSummary transactions={transactions} />
           </div>
-          <TransactionList transactions={transactions} />
+          <TransactionList
+            transactions={transactions}
+            onDeleteTransaction={deleteTransaction}
+          />
         </div>
       </main>
       <Footer />
