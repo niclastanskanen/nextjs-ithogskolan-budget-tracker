@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -11,13 +15,26 @@ import {
 import { Button } from "@/components/ui/button";
 
 const BudgetForm = () => {
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [type, setType] = useState<"income" | "expense">("expense");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log({
+      description,
+      amount,
+      type,
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Add Transaction</CardTitle>
       </CardHeader>
       <CardContent>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Input
@@ -26,6 +43,8 @@ const BudgetForm = () => {
               placeholder="Enter description"
               required
               className="w-full"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <div className="space-y-2">
@@ -38,11 +57,17 @@ const BudgetForm = () => {
               min="0"
               required
               className="w-full"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="type">Type</Label>
-            <Select required>
+            <Select
+              value={type}
+              onValueChange={(value: "income" | "expense") => setType(value)}
+              required
+            >
               <SelectTrigger id="type" className="w-full">
                 <SelectValue placeholder="Select transaction type" />
               </SelectTrigger>
