@@ -38,7 +38,7 @@ export default function Home() {
             <BudgetForm onAddTransaction={addTransaction} />
             <BudgetSummary transactions={transactions} />
           </div>
-          <TransactionList />
+          <TransactionList transactions={transactions} />
         </div>
       </main>
       <Footer />
